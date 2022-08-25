@@ -1,6 +1,6 @@
 # Building Project
 
-docker-compose up -d --build
+docker-compose up --build
 
 # Run the Project
 

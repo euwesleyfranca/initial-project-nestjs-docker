@@ -1,0 +1,45 @@
+version: '3.1'
+
+services:
+  app: 
+    build: . 
+    container_name: nest_docker_app
+    entrypoint: ./.docker/entrypoint.sh
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/home/node/app
+    networks:
+      - nest_docker  
+  
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: nest_docker_db
+    restart: always
+    ports:
+      - "33006:3306"
+    volumes:
+      - nest_docker_dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nest_docker
+      - MYSQL_ROOT_PASSWORD=root
+    
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: nest_docker_db_admin
+    links: 
+      - db
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+  
+volumes:
+  nest_docker_dbdata:
+    external: true
+
+networks:
+  nest_docker:
+    driver: bridge

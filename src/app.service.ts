@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'NestJs with Docker started! Good work...';
+  getHello(): object {
+    return {
+      app: 'NestJs with Docker started! Good work...'
+    };
   }
 }
